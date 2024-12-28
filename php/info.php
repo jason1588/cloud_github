@@ -10,7 +10,7 @@ if (isset($_SESSION['user'])) {
     $navleftbtn_url = "activity_initiate.php";
 } else {
     $isUserLoggedIn = false;
-    $navrightbtn_text = "登入你好";
+    $navrightbtn_text = "登入";
     $navrightbtn_url = "login.php"; // 這裡是你的登入頁面的 URL
     $navleftbtn_url = "login.php";
 }
