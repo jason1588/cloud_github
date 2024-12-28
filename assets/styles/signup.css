@@ -1,0 +1,455 @@
+/* 設定字型-源泉圓體 三種字重*/
+@font-face {
+    font-family: 'GenSenRoundedJP-B';
+    src: url(../font/GenSenRoundedJP-B.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'GenSenRoundedJP-M';
+    src: url(../font/GenSenRoundedJP-M.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'GenSenRoundedJP-R';
+    src: url(../font/GenSenRoundedJP-R.woff) format("woff");
+}
+
+* {
+    /* 套用字型 */
+    font-family: 'GenSenRoundedJP-R';
+}
+
+/* 側邊滾動條scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+    background-image: url("../images/bg.jpg");
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(1, 61, 67, 0.8);
+    border: 2px solid rgb(10, 100, 108);
+    border-radius: 20px;
+    background-clip: content-box;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(10, 100, 108);
+}
+
+/* -----底層盡量不動-------------------- */
+
+body {
+    background-image: url("../images/bg.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 1100px;
+    /* 自己依需求改 */
+    margin: 0;
+}
+
+#nav {
+    transition: 0.3s all;
+    display: flex;
+    position: fixed;
+    top: 20px;
+    z-index: 9999;
+    margin: 0;
+    height: 80px;
+    width: 85%;
+    /* 也是目前div內容寬度上限界線!!! */
+    min-width: 800px;
+    /* 也是目前div內容寬度下限界線!!! */
+    font-size: 150%;
+    justify-content: left;
+    align-items: center;
+    border-radius: 30px;
+    /* nav圓角 */
+    background-color: rgba(1, 61, 67, 0.8);
+    /* nav背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* nav陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+/* nav主要css勿動 */
+
+#div {
+    transition: 0.3s all;
+    display: flex;
+    position: absolute;
+    font-size: 150%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    /* div圓角 */
+    background-color: rgba(211, 235, 235, 0.35);
+    /* div背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* div陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+/* div主要css勿動，顯示主要內容的div都套上這個id來繼承樣式 */
+
+#footer {
+    transition: 0.3s all;
+    display: flex;
+    margin: 0;
+    margin-top: auto;
+    margin-bottom: 10px;
+    height: 120px;
+    width: 85%;
+    /* 也是目前div內容寬度上限界線!!! */
+    min-width: 800px;
+    /* 也是目前div內容寬度下限界線!!! */
+    font-size: 150%;
+    justify-content: left;
+    align-items: center;
+    border-radius: 30px;
+    /* footer圓角 */
+    background-color: rgba(1, 61, 67, 0.8);
+    /* footer背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* footer陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+/* footer主要css勿動 */
+
+/* -----div--------------------------- */
+
+div1 {
+    margin-bottom: 40px;
+    /* footer和nav高度差了40px */
+    height: 780px;
+    width: 800px;
+    flex-direction: column;
+}
+
+/* 新增div延伸css，依每個使用需求修改或新增 */
+
+div3 {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+    width: 100%;
+}
+
+divup {
+    display: flex;
+    align-items: flex-end;
+    margin: 0;
+    justify-content: flex-start;
+}
+
+divdown {
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    justify-content: flex-start;
+}
+
+leftdiv,
+rightdiv {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+downdiv {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* -----按鈕--------------------------- */
+
+#navleftbtn {
+    font-family: 'GenSenRoundedJP-B';
+    transition: 0.3s all;
+    width: 190px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: 20px;
+    padding: 10px;
+    background-color: rgb(36, 130, 108);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#navleftbtn:hover {
+    background-color: rgb(46, 173, 128);
+    color: #E5E8DF;
+}
+
+#navrightbtn {
+    font-family: 'GenSenRoundedJP-B';
+    transition: 0.3s all;
+    width: 120px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 0;
+    margin-right: 30px;
+    padding: 10px;
+    background-color: rgb(176, 56, 29);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#navrightbtn:hover {
+    background-color: rgb(221, 81, 56);
+    color: #E5E8DF;
+}
+
+#btn {
+    transition: 0.3s all;
+    width: 150px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: rgba(1, 61, 67);
+    color: #E5E8DF;
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#btn:hover {
+    background-color: rgb(28, 148, 159);
+    color: #E5E8DF;
+}
+
+/* -----其他--------------------------- */
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 50px;
+    margin-bottom: 0;
+    color: rgba(1, 61, 67);
+}
+
+table {
+    margin-bottom: 10px;
+}
+
+#table2 {
+    margin-bottom: 0;
+}
+
+#logo {
+    transition: 0.3s all;
+    height: 40px;
+    margin-right: 10px;
+    margin-left: 30px;
+}
+
+#logo:hover {
+    height: 45px;
+}
+
+#loginbg {
+    transition: 0.3s all;
+    height: 50vh;
+    border-radius: 15px;
+}
+
+#loginbg:hover {
+    height: 53vh;
+}
+
+h3 {
+    font-family: 'GenSenRoundedJP-B';
+    margin-top: 3rem;
+    color: rgba(1, 61, 67);
+    font-size: 150%;
+}
+
+p {
+    color: rgba(1, 61, 67);
+    font-weight: bold;
+}
+
+p2 {
+    font-family: 'GenSenRoundedJP-B';
+    font-size: 20px;
+    font-weight: bold;
+    color: #E5E8DF;
+}
+
+p3 {
+    font-size: 15px;
+    color: #E5E8DF;
+}
+
+input {
+    line-height: 1;
+    zoom: 140%;
+    width: 170px;
+    background-color: rgba(157, 182, 163, 0.3);
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    color: rgba(1, 61, 67);
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    padding: 6px 10px;
+}
+
+input#groupname {
+    width: 150px;
+    margin-right: 10px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus {
+    outline: none;
+    color: rgb(0, 79, 87);
+    border-color: transparent;
+    box-shadow: rgb(246, 253, 247, 0.5) 0px 0px 2px 2px;
+}
+
+input::placeholder {
+    color: rgba(1, 61, 67, 0.5);
+}
+
+input:hover {
+    color: rgb(0, 79, 87);
+}
+
+img {
+    display: block;
+}
+
+td {
+    padding: 12px;
+    padding-right: 30px;
+    padding-left: 0;
+}
+
+.td2 {
+    padding: 12px;
+    padding-right: 30px;
+    padding-left: 30px;
+    text-align: center;
+}
+
+input[type="date"] {
+    color: rgba(1, 61, 67);
+}
+
+input[type="radio"] {
+    background-color: transparent;
+    backdrop-filter: none;
+    /* 移除毛玻璃效果 */
+    -webkit-backdrop-filter: none;
+    /* 移除毛玻璃效果 */
+    width: 14px;
+    margin-right: 5px;
+}
+
+fieldset {
+    color: rgba(1, 61, 67);
+    border: 5px solid rgba(1, 61, 67);
+    border-radius: 20px;
+}
+
+#right-fieldset,
+#left-fieldset {
+    height: 350px;
+    width: 50%;
+}
+
+#right-fieldset {
+    margin-right: 25%;
+}
+
+legend {
+    font-family: 'GenSenRoundedJP-M';
+    color: rgb(1, 61, 67);
+    margin-bottom: 10px;
+}
+
+legend,
+p {
+    display: flex;
+    align-items: center;
+}
+
+legend img,
+p img {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+updiv {
+    display: flex;
+}
+
+.radio-div {
+    background-color: rgba(157, 182, 163, 0.3);
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    border-radius: 12px;
+    border: none;
+    margin-bottom: 20px;
+    width: 260px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 6px;
+    height: 35px;
+}
+
+label {
+    font-size: 0.8em;
+    color: rgba(1, 61, 67);
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    margin: 40px;
+}
+
+.identity-category {
+    margin-right: 20px;
+    margin-top: 10px;
+}

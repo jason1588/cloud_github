@@ -1,0 +1,454 @@
+/* 設定字型-源泉圓體 三種字重*/
+@font-face {
+    font-family: 'GenSenRoundedJP-B';
+    src: url(../font/GenSenRoundedJP-B.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'GenSenRoundedJP-M';
+    src: url(../font/GenSenRoundedJP-M.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'GenSenRoundedJP-R';
+    src: url(../font/GenSenRoundedJP-R.woff) format("woff");
+}
+
+* {
+    /* 套用字型 */
+    font-family: 'GenSenRoundedJP-R';
+}
+
+/* 側邊滾動條scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+    background-image: url("../images/bg.jpg");
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(1, 61, 67, 0.8);
+    border: 2px solid rgb(10, 100, 108);
+    border-radius: 20px;
+    background-clip: content-box;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(10, 100, 108);
+}
+
+/* -----底層盡量不動-------------------- */
+
+body {
+    background-image: url("../images/bg.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 1000px;
+    /* 自己依需求改 */
+    margin: 0;
+}
+
+#nav {
+    transition: 0.3s all;
+    display: flex;
+    position: fixed;
+    top: 20px;
+    z-index: 9999;
+    margin: 0;
+    height: 80px;
+    width: 85%;
+    /* 也是目前div內容寬度上限界線!!! */
+    min-width: 950px;
+    /* 也是目前div內容寬度下限界線!!! */
+    font-size: 150%;
+    justify-content: left;
+    align-items: center;
+    border-radius: 30px;
+    /* nav圓角 */
+    background-color: rgba(1, 61, 67, 0.8);
+    /* nav背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* nav陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+/* nav主要css勿動 */
+
+#div {
+    transition: 0.3s all;
+    display: flex;
+    position: absolute;
+    font-size: 150%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    /* div圓角 */
+    background-color: rgba(211, 235, 235, 0.4);
+    /* div背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* div陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+/* div主要css勿動，顯示主要內容的div都套上這個id來繼承樣式 */
+
+#footer {
+    transition: 0.3s all;
+    display: flex;
+    margin: 0;
+    margin-top: auto;
+    margin-bottom: 10px;
+    height: 100px;
+    width: 85%;
+    /* 也是目前div內容寬度上限界線!!! */
+    min-width: 950px;
+    /* 也是目前div內容寬度下限界線!!! */
+    font-size: 150%;
+    justify-content: left;
+    align-items: center;
+    border-radius: 30px;
+    /* footer圓角 */
+    background-color: rgba(1, 61, 67, 0.8);
+    /* footer背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* footer陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+/* footer主要css勿動 */
+
+/* -----div--------------------------- */
+
+div1 {
+    margin-bottom: 40px;
+    /* footer和nav高度差了40px */
+    height: 650px;
+    width: 800px;
+    flex-direction: column;
+}
+
+/* 新增div延伸css，依每個使用需求修改或新增 */
+
+div3 {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+    width: 100%;
+}
+
+divup {
+    display: flex;
+    align-items: flex-end;
+    margin: 0;
+    justify-content: flex-start;
+}
+
+divdown {
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    justify-content: flex-start;
+}
+
+leftdiv,
+rightdiv {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+downdiv {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* -----按鈕--------------------------- */
+
+#navleftbtn {
+    font-family: 'GenSenRoundedJP-M';
+    transition: 0.3s all;
+    width: 190px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: 20px;
+    padding: 10px;
+    background-color: rgba(36, 130, 108, 1);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+
+    &:hover {
+        font-family: 'GenSenRoundedJP-B';
+        background-color: rgb(46, 173, 128);
+        color: #E5E8DF;
+    }
+}
+
+#navrightbtn {
+    font-family: 'GenSenRoundedJP-M';
+    transition: 0.3s all;
+    width: 120px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 0;
+    margin-right: 30px;
+    padding: 10px;
+    background-color: rgb(176, 56, 29);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+
+    &:hover {
+        font-family: 'GenSenRoundedJP-B';
+        background-color: rgb(221, 81, 56);
+        color: #E5E8DF;
+    }
+}
+
+#navleftbtn1,
+#navrightbtn1 {
+    font-family: 'GenSenRoundedJP-M';
+    transition: 0.3s all;
+    width: 150px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: 20px;
+    padding: 10px;
+    background-color: rgba(0, 79, 87, 0.7);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+
+    &:hover {
+        font-family: 'GenSenRoundedJP-B';
+        background-color: rgb(0, 79, 87);
+        color: #E5E8DF;
+    }
+}
+
+#btn {
+    transition: 0.3s all;
+    width: 265px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: rgba(1, 61, 67);
+    color: white;
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#btn:hover {
+    background-color: rgb(28, 148, 159);
+    color: white;
+}
+
+/* -----其他--------------------------- */
+
+form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    color: rgba(1, 61, 67);
+    margin-top: -40px;
+    margin-left: auto;
+    margin-right: 15%;
+}
+
+table {
+    margin-bottom: 10px;
+}
+
+#table2 {
+    margin-bottom: 0;
+}
+
+#logo {
+    transition: 0.3s all;
+    height: 40px;
+    margin-right: 10px;
+    margin-left: 30px;
+}
+
+#logo:hover {
+    height: 45px;
+}
+
+#loginbg {
+    transition: 0.3s all;
+    height: 50vh;
+    border-radius: 15px;
+}
+
+#loginbg:hover {
+    height: 53vh;
+}
+
+h3 {
+    margin-top: 0px;
+    margin-bottom: 30px;
+    color: rgba(1, 61, 67);
+}
+
+h5 {
+    margin-right: 10px;
+}
+
+p {
+    color: rgba(1, 61, 67);
+    font-weight: bold;
+}
+
+p2 {
+    font-family: 'GenSenRoundedJP-B';
+    font-size: 20px;
+    color: #E5E8DF;
+}
+
+p3 {
+    font-family: 'GenSenRoundedJP-R';
+    font-size: 15px;
+    color: #E5E8DF;
+}
+
+input {
+    line-height: 1;
+    zoom: 140%;
+    width: 170px;
+    background-color: rgba(157, 182, 163, 0.3);
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    color: white;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+input::placeholder {
+    color: rgba(1, 61, 67, 0.5);
+}
+
+img {
+    display: block;
+}
+
+td {
+    padding: 12px;
+    padding-right: 10px;
+    padding-left: 10px;
+    background: rgba(229, 232, 223, 0.6);
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    color: rgba(1, 61, 67);
+}
+
+.td2 {
+    padding: 12px;
+    padding-right: 30px;
+    padding-left: 30px;
+    text-align: center;
+}
+
+#scrollable-table {
+    height: 330px;
+    overflow-y: auto;
+    display: block;
+    margin-top: 0.8rem;
+
+    &::-webkit-scrollbar {
+        width: auto;
+        background-image: none;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: initial;
+        margin: 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: initial;
+        border: none;
+        border-radius: 0;
+        background-clip: initial;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+}
+
+table {
+    border-collapse: collapse;
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 18px;
+}
+
+th {
+    background: rgba(0, 79, 87, 0.5);
+    color: rgba(0, 79, 87, 1);
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    padding: 8px;
+}
+
+.my-table td {
+    padding: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.my-table {
+    margin-top: 3.5rem;
+    height: 10px;
+}
+
+.my-table a {
+    font-size: 15px;
+    color: rgba(1, 61, 67);
+}
+
+.page {
+    font-size: 15px;
+    color: rgba(1, 61, 67);
+}
+
+.my-select {
+    background-color: rgba(157, 182, 163, 0.3);
+    border-radius: 5px;
+    width: 100px;
+    text-align: center;
+}

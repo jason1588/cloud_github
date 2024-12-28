@@ -1,0 +1,596 @@
+/* 設定字型-源泉圓體 三種字重*/
+@font-face {
+    font-family: 'GenSenRoundedJP-B';
+    src: url(../font/GenSenRoundedJP-B.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'GenSenRoundedJP-M';
+    src: url(../font/GenSenRoundedJP-M.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'GenSenRoundedJP-R';
+    src: url(../font/GenSenRoundedJP-R.woff) format("woff");
+}
+
+* {
+    /* 套用字型 */
+    font-family: 'GenSenRoundedJP-R';
+}
+
+/* 側邊滾動條scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+    background-image: url("../images/bg.jpg");
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(1, 61, 67, 0.8);
+    border: 2px solid rgb(10, 100, 108);
+    border-radius: 20px;
+    background-clip: content-box;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(10, 100, 108);
+}
+
+/* -----底層盡量不動-------------------- */
+
+body {
+    background-image: url("../images/bg.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 2600px;
+    /* 自己依需求改 */
+    margin: 0;
+}
+
+#nav {
+    transition: 0.3s all;
+    display: flex;
+    position: fixed;
+    top: 20px;
+    z-index: 9999;
+    margin: 0;
+    height: 80px;
+    width: 85%;
+    /* 也是目前div內容寬度上限界線!!! */
+    min-width: 1100px;
+    /* 也是目前div內容寬度下限界線!!! */
+    font-size: 150%;
+    justify-content: left;
+    align-items: center;
+    border-radius: 30px;
+    /* nav圓角 */
+    background-color: rgba(1, 61, 67, 0.8);
+    /* nav背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* nav陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+/* nav主要css勿動 */
+
+#div {
+    justify-content: center;
+    width: 1100px;
+    height: 1300px;
+    display: grid;
+    position: absolute;
+    font-size: 150%;
+    margin-top: 350px;
+    grid-template-columns: [line_1] 340px [line2] 30px [column-3] 340px [line4] 30px [column-5]340px [column-6];
+    grid-template-rows: [row-1] 730px [row-2] 50px [row-3] 730px [row-4];
+}
+
+/* div主要css勿動，顯示主要內容的div都套上這個id來繼承樣式 */
+
+#footer {
+    transition: 0.3s all;
+    display: flex;
+    margin: 0;
+    margin-top: auto;
+    margin-bottom: 10px;
+    height: 120px;
+    width: 85%;
+    /* 也是目前div內容寬度上限界線!!! */
+    min-width: 1100px;
+    /* 也是目前div內容寬度下限界線!!! */
+    font-size: 150%;
+    justify-content: left;
+    align-items: center;
+    border-radius: 30px;
+    /* footer圓角 */
+    background-color: rgba(1, 61, 67, 0.8);
+    /* footer背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* footer陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+/* footer主要css勿動 */
+
+/* -----div--------------------------- */
+
+div1 {
+    margin-bottom: 200px;
+    /* footer和nav高度差了200px */
+}
+
+/* 新增div延伸css，依每個使用需求修改或新增 */
+
+div3 {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+    width: 100%;
+}
+
+divup {
+    display: flex;
+    align-items: flex-end;
+    margin: 0;
+}
+
+divdown {
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+leftdiv {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+rightdiv {
+    float: right;
+    margin: 0;
+    padding: 0;
+}
+
+/* -----按鈕--------------------------- */
+
+#navleftbtn {
+    font-family: 'GenSenRoundedJP-M';
+    transition: 0.3s all;
+    width: 190px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: 20px;
+    padding: 10px;
+    background-color: rgba(36, 130, 108, 1);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+
+    &:hover {
+        font-family: 'GenSenRoundedJP-B';
+        background-color: rgb(46, 173, 128);
+        color: #E5E8DF;
+    }
+}
+
+#navrightbtn {
+    font-family: 'GenSenRoundedJP-M';
+    transition: 0.3s all;
+    width: 120px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 0;
+    margin-right: 30px;
+    padding: 10px;
+    background-color: rgb(176, 56, 29);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+
+    &:hover {
+        font-family: 'GenSenRoundedJP-B';
+        background-color: rgb(221, 81, 56);
+        color: #E5E8DF;
+    }
+}
+
+#navleftbtn1,
+#navrightbtn1 {
+    font-family: 'GenSenRoundedJP-M';
+    transition: 0.3s all;
+    width: 150px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: 20px;
+    padding: 10px;
+    background-color: rgba(0, 79, 87, 0.7);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+
+    &:hover {
+        font-family: 'GenSenRoundedJP-B';
+        background-color: rgb(0, 79, 87);
+        color: #E5E8DF;
+    }
+}
+
+#btn {
+    font-family: 'GenSenRoundedJP-M';
+    transition: 0.3s all;
+    width: 265px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: rgba(1, 61, 67);
+    color: #E5E8DF;
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#btn:hover {
+    background-color: rgb(28, 148, 159);
+    color: #E5E8DF;
+}
+
+/* ---------------------------其他--------------------------- */
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 50px;
+    margin-bottom: 0;
+}
+
+table {
+    margin-bottom: 10px;
+}
+
+#table2 {
+    margin-bottom: 0;
+}
+
+#logo {
+    transition: 0.3s all;
+    height: 40px;
+    margin-right: 10px;
+    margin-left: 30px;
+}
+
+#logo:hover {
+    height: 45px;
+}
+
+#loginbg {
+    transition: 0.3s all;
+    height: 50vh;
+    border-radius: 15px;
+}
+
+#loginbg:hover {
+    height: 53vh;
+}
+
+h3 {
+    margin-top: 0px;
+    margin-bottom: 30px;
+    color: rgba(1, 61, 67);
+}
+
+p2 {
+    font-family: 'GenSenRoundedJP-B';
+    font-size: 20px;
+    color: #E5E8DF;
+}
+
+p3 {
+    font-family: 'GenSenRoundedJP-R';
+    font-size: 15px;
+    color: #E5E8DF;
+}
+
+input::placeholder {
+    color: #E5E8DF;
+}
+
+img {
+    display: block;
+}
+
+td {
+    padding: 12px;
+    padding-right: 30px;
+    padding-left: 0;
+}
+
+.td2 {
+    padding: 12px;
+    padding-right: 30px;
+    padding-left: 30px;
+    text-align: center;
+}
+
+.advertise {
+    width: 1100px;
+    height: 400px;
+    margin-top: 130px;
+
+}
+
+.advertise1 {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: fill;
+}
+
+.introduce {
+    font-family: "GenSenRoundedJP-B";
+    width: 500px;
+    margin-top: 40px;
+    height: 100px;
+    border-radius: 120px;
+    background-color: rgba(211, 235, 235, 0.6);
+    /* div背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(40px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(40px);
+    /* 毛玻璃程度 */
+    font-size: 120%;
+}
+
+.introduce1 {
+    text-align: center;
+    color: rgba(1, 61, 67);
+    margin-top: 1.8rem;
+}
+
+#content1 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    border-radius: 30px;
+    /* div圓角 */
+    background-color: rgba(211, 235, 235, 0.4);
+    /* div背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+#content2 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    border-radius: 30px;
+    /* div圓角 */
+    background-color: rgba(211, 235, 235, 0.4);
+    /* div背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+#content3 {
+    grid-column-start: 5;
+    grid-column-end: 6;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    border-radius: 30px;
+    /* div圓角 */
+    background-color: rgba(211, 235, 235, 0.4);
+    /* div背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+#content4 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    border-radius: 30px;
+    /* div圓角 */
+    background-color: rgba(211, 235, 235, 0.4);
+    /* div背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+#content5 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    border-radius: 30px;
+    /* div圓角 */
+    background-color: rgba(211, 235, 235, 0.4);
+    /* div背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+#content6 {
+    grid-column-start: 5;
+    grid-column-end: 6;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    border-radius: 30px;
+    /* div圓角 */
+    background-color: rgba(211, 235, 235, 0.4);
+    /* div背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+#img {
+    border-radius: 20px;
+    width: 300px;
+    height: 330px;
+    margin: 20px;
+    object-fit: cover;
+}
+
+#content {
+    margin: 28px;
+}
+
+#font {
+    font-size: 15px;
+    margin: 0px;
+    color: #013d43;
+    letter-spacing: 3px;
+    line-height: 30px;
+    font-weight: bold;
+}
+
+#title {
+    font-family: 'GenSenRoundedJP-B';
+    font-size: 30px;
+    color: #004F57;
+    margin: 0;
+}
+
+#sure {
+    transition: all 0.5s ease-in-out;
+    font-family: 'GenSenRoundedJP-M';
+    width: 140px;
+    height: 40px;
+    border-radius: 10px;
+    margin-right: 15px;
+    color: #E5E8DF;
+    background-color: #BB442E;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    min-width: 140px;
+    min-height: 40px;
+
+    &:hover {
+        transition: all 0.5s ease-in-out;
+        font-family: 'GenSenRoundedJP-B';
+        background-color: rgb(221, 81, 56);
+        color: #E5E8DF;
+    }
+}
+
+#information {
+    transition: all 0.5s ease-in-out;
+    width: 140px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    text-align: center;
+    background-color: #9bbeb5;
+    color: #004F57;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    min-width: 140px;
+    min-height: 40px;
+
+    &:hover {
+        transition: all 0.5s ease-in-out;
+        font-family: 'GenSenRoundedJP-B';
+        background-color: #004F57;
+        color: #E5E8DF;
+    }
+}
+
+.btnsure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+.sure1 {
+    color: rgb(255, 255, 255);
+}
+
+.information1 {
+    color: #004F57;
+}
+
+.my-table td {
+    padding: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    background: rgba(229, 232, 223, 0.6);
+    border: 2px solid rgba(0, 0, 0, 0.25);
+}
+
+.my-table {
+    height: 10px;
+    border-collapse: collapse;
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    z-index: 10;
+    position: absolute;
+    top: 2380px;
+}
+
+.my-table a {
+    font-size: 15px;
+    color: rgba(1, 61, 67);
+}
+
+.page {
+    font-size: 15px;
+    color: rgba(1, 61, 67);
+}

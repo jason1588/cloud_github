@@ -1,0 +1,368 @@
+/* 設定字型-源泉圓體 三種字重*/
+@font-face {
+    font-family: 'GenSenRoundedJP-B';
+    src: url(../font/GenSenRoundedJP-B.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'GenSenRoundedJP-M';
+    src: url(../font/GenSenRoundedJP-M.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'GenSenRoundedJP-R';
+    src: url(../font/GenSenRoundedJP-R.woff) format("woff");
+}
+
+* {
+    /* 套用字型 */
+    font-family: 'GenSenRoundedJP-R';
+}
+
+/* 側邊滾動條scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+    background-image: url("../images/bg.jpg");
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(1, 61, 67, 0.8);
+    border: 2px solid rgb(10, 100, 108);
+    border-radius: 20px;
+    background-clip: content-box;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(10, 100, 108);
+}
+
+/* -----底層盡量不動-------------------- */
+
+body {
+    background-image: url("../images/bg.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 1020px;
+    /* 自己依需求改 */
+    margin: 0;
+}
+
+#nav {
+    transition: 0.3s all;
+    display: flex;
+    position: fixed;
+    top: 20px;
+    z-index: 9999;
+    margin: 0;
+    height: 80px;
+    width: 85%;
+    /* 也是目前div內容寬度上限界線!!! */
+    min-width: 800px;
+    /* 也是目前div內容寬度下限界線!!! */
+    font-size: 150%;
+    justify-content: left;
+    align-items: center;
+    border-radius: 30px;
+    /* nav圓角 */
+    background-color: rgba(1, 61, 67, 0.8);
+    /* nav背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* nav陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+/* nav主要css勿動 */
+
+#div {
+    transition: 0.3s all;
+    display: flex;
+    position: absolute;
+    font-size: 150%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    /* div圓角 */
+    background-color: rgba(189, 255, 247, 0.2);
+    /* div背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* div陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+/* div主要css勿動，顯示主要內容的div都套上這個id來繼承樣式 */
+
+#footer {
+    transition: 0.3s all;
+    display: flex;
+    margin: 0;
+    margin-top: auto;
+    margin-bottom: 10px;
+    height: 120px;
+    width: 85%;
+    /* 也是目前div內容寬度上限界線!!! */
+    min-width: 800px;
+    /* 也是目前div內容寬度下限界線!!! */
+    font-size: 150%;
+    justify-content: left;
+    align-items: center;
+    border-radius: 30px;
+    /* footer圓角 */
+    background-color: rgba(1, 61, 67, 0.8);
+    /* footer背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* footer陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+/* footer主要css勿動 */
+
+/* -----div--------------------------- */
+
+div1 {
+    margin-bottom: 40px;
+    /* footer和nav高度差了40px */
+    height: 60vh;
+    min-height: 500px;
+    width: 800px;
+}
+
+/* 新增div延伸css，依每個使用需求修改或新增 */
+
+div3 {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+    width: 100%;
+}
+
+divup {
+    display: flex;
+    align-items: flex-end;
+    margin: 0;
+}
+
+divdown {
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+leftdiv {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+rightdiv {
+    float: right;
+    margin: 0;
+    padding: 0;
+}
+
+/* -----按鈕--------------------------- */
+
+#navright {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+#navleftbtn {
+    font-family: 'GenSenRoundedJP-M';
+    transition: 0.3s all;
+    width: 190px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: 20px;
+    padding: 10px;
+    background-color: rgba(36, 130, 108, 1);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+
+    &:hover {
+        font-family: 'GenSenRoundedJP-B';
+        background-color: rgb(46, 173, 128);
+        color: #E5E8DF;
+    }
+}
+
+#navrightbtn {
+    font-family: 'GenSenRoundedJP-M';
+    transition: 0.3s all;
+    width: 120px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 0;
+    margin-right: 30px;
+    padding: 10px;
+    background-color: rgb(176, 56, 29);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+
+    &:hover {
+        font-family: 'GenSenRoundedJP-B';
+        background-color: rgb(221, 81, 56);
+        color: #E5E8DF;
+    }
+}
+
+#btn {
+    transition: 0.3s all;
+    width: 265px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: rgba(1, 61, 67);
+    color: white;
+    font-size: 17px;
+    border: 2px solid rgba(1, 61, 67);
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#btn:hover {
+    background-color: rgb(28, 148, 159);
+    color: white;
+    border-color: rgb(28, 148, 159);
+}
+
+#btn2 {
+    transition: 0.3s all;
+    width: 265px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(1, 61, 67);
+    font-size: 17px;
+    border: 2px solid rgba(1, 61, 67);
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#btn2:hover {
+    background-color: rgb(28, 148, 159);
+    color: white;
+    border-color: rgb(28, 148, 159);
+}
+
+/* -----其他--------------------------- */
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 50px;
+    margin-bottom: 0;
+}
+
+table {
+    margin-bottom: 10px;
+}
+
+#table2 {
+    margin-bottom: 0;
+}
+
+#logo {
+    transition: 0.3s all;
+    height: 40px;
+    margin-right: 10px;
+    margin-left: 30px;
+}
+
+#logo:hover {
+    height: 45px;
+}
+
+#loginimg {
+    transition: 0.3s all;
+    height: 50vh;
+    min-height: 420px;
+    border-radius: 15px;
+}
+
+#loginimg:hover {
+    height: 53vh;
+}
+
+h3 {
+    margin-top: 0px;
+    margin-bottom: 30px;
+    color: rgba(1, 61, 67);
+}
+
+p2 {
+    font-family: 'GenSenRoundedJP-B';
+    font-size: 20px;
+    color: #E5E8DF;
+}
+
+p3 {
+    font-family: 'GenSenRoundedJP-R';
+    font-size: 15px;
+    color: #E5E8DF;
+}
+
+input {
+    line-height: 1;
+    zoom: 140%;
+    background-color: rgba(157, 182, 163, 0.3);
+    /* 輸入框顏色 */
+    color: rgba(1, 61, 67);
+    /* 輸入框文字 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 20px;
+    padding: 6px 10px;
+}
+
+input:focus {
+    outline: none;
+    color: rgb(0, 79, 87);
+    border-color: transparent;
+    box-shadow: rgb(246, 253, 247, 0.5) 0px 0px 2px 2px;
+}
+
+input:hover {
+    color: rgb(0, 79, 87);
+}
+
+input::placeholder {
+    color: rgba(0, 79, 87, 0.5);
+}
+
+img {
+    display: block;
+}

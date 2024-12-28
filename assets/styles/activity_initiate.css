@@ -1,0 +1,525 @@
+/* 設定字型-源泉圓體 三種字重*/
+@font-face {
+    font-family: 'GenSenRoundedJP-B';
+    src: url(../font/GenSenRoundedJP-B.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'GenSenRoundedJP-M';
+    src: url(../font/GenSenRoundedJP-M.woff) format("woff");
+}
+
+@font-face {
+    font-family: 'GenSenRoundedJP-R';
+    src: url(../font/GenSenRoundedJP-R.woff) format("woff");
+}
+
+* {
+    /* 套用字型 */
+    font-family: 'GenSenRoundedJP-R';
+}
+
+/* 側邊滾動條scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+    background-image: url("../images/bg.jpg");
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(1, 61, 67, 0.8);
+    border: 2px solid rgb(10, 100, 108);
+    border-radius: 20px;
+    background-clip: content-box;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(10, 100, 108);
+}
+
+/* -----底層盡量不動----- */
+
+body {
+    height: 1600px;
+    /* 自己依需求改 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    background-image: url("../images/bg.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* nav主要css勿動 */
+
+#nav {
+    height: 80px;
+    width: 85%;
+    /* 也是目前div內容寬度上限界線!!! */
+    min-width: 800px;
+    /* 也是目前div內容寬度下限界線!!! */
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    top: 20px;
+    position: fixed;
+    z-index: 9999;
+    margin: 0;
+    transition: 0.3s all;
+    background-color: rgba(1, 61, 67, 0.8);
+    /* nav背景色 */
+    border-radius: 30px;
+    /* nav圓角 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* nav陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    font-size: 150%;
+}
+
+/* div主要css勿動，顯示主要內容的div都套上這個id來繼承樣式 */
+
+#div {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    transition: 0.3s all;
+    background-color: rgba(211, 235, 235, 0.35);
+    /* div背景色 */
+    border-radius: 30px;
+    /* div圓角 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* div陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+}
+
+/* footer主要css勿動 */
+
+#footer {
+    height: 120px;
+    width: 85%;
+    /* 也是目前div內容寬度上限界線!!! */
+    min-width: 800px;
+    /* 也是目前div內容寬度下限界線!!! */
+    display: flex;
+    transition: 0.3s all;
+    justify-content: left;
+    align-items: center;
+    margin: 0;
+    margin-top: auto;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    /* footer圓角 */
+    background-color: rgba(1, 61, 67, 0.8);
+    /* footer背景色 */
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.1);
+    /* footer陰影 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    font-size: 150%;
+}
+
+/* -----div--------------------------- */
+
+div1 {
+    margin-bottom: 40px;
+    /* footer和nav高度差了40px */
+    width: 1000px;
+    height: 1200px;
+}
+
+/* 新增div延伸css，依每個使用需求修改或新增 */
+
+div3 {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+    width: 100%;
+}
+
+divup {
+    display: flex;
+    align-items: flex-end;
+    margin: 0;
+}
+
+divdown {
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+}
+
+#leftdiv {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding-right: 2rem;
+}
+
+#rightdiv {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+/* -----按鈕----- */
+
+#navleftbtn {
+    font-family: 'GenSenRoundedJP-M';
+    transition: 0.3s all;
+    width: 190px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: 20px;
+    padding: 10px;
+    background-color: rgba(36, 130, 108, 1);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+
+    &:hover {
+        font-family: 'GenSenRoundedJP-B';
+        background-color: rgb(46, 173, 128);
+        color: #E5E8DF;
+    }
+}
+
+#navrightbtn {
+    font-family: 'GenSenRoundedJP-M';
+    transition: 0.3s all;
+    width: 120px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 0;
+    margin-right: 30px;
+    padding: 10px;
+    background-color: rgb(176, 56, 29);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+
+    &:hover {
+        font-family: 'GenSenRoundedJP-B';
+        background-color: rgb(221, 81, 56);
+        color: #E5E8DF;
+    }
+}
+
+#navleftbtn1,
+#navrightbtn1 {
+    font-family: 'GenSenRoundedJP-M';
+    transition: 0.3s all;
+    width: 150px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: 20px;
+    padding: 10px;
+    background-color: rgba(0, 79, 87, 0.7);
+    color: rgba(229, 232, 223, 0.7);
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+
+    &:hover {
+        font-family: 'GenSenRoundedJP-B';
+        background-color: rgb(0, 79, 87);
+        color: #E5E8DF;
+    }
+}
+
+#btn {
+    transition: 0.3s all;
+    width: 150px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    background-color: rgba(1, 61, 67);
+    color: #E5E8DF;
+    font-size: 17px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#btn:hover {
+    background-color: rgb(28, 148, 159);
+    color: white;
+}
+
+/* -----其他--------------------------- */
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+
+table {
+    margin-bottom: 10px;
+}
+
+#table2 {
+    margin-bottom: 0;
+}
+
+#logo {
+    transition: 0.3s all;
+    height: 40px;
+    margin-right: 10px;
+    margin-left: 30px;
+}
+
+#logo:hover {
+    height: 45px;
+}
+
+#loginbg {
+    transition: 0.3s all;
+    height: 50vh;
+    border-radius: 15px;
+}
+
+#loginbg:hover {
+    height: 53vh;
+}
+
+h3 {
+    font-family: 'GenSenRoundedJP-B';
+    margin-top: 3rem;
+    color: rgba(1, 61, 67);
+    font-size: 250%;
+}
+
+p {
+    color: black;
+    font-family: 'GenSenRoundedJP-M';
+}
+
+p2 {
+    font-family: 'GenSenRoundedJP-B';
+    font-size: 20px;
+    color: #E5E8DF;
+}
+
+p3 {
+    font-size: 15px;
+    color: #E5E8DF;
+}
+
+label,
+#leftdiv span,
+#rightdiv span {
+    font-family: 'GenSenRoundedJP-M';
+    color: rgba(1, 61, 67);
+    padding: 6px 12px;
+    zoom: 120%;
+}
+
+input {
+    line-height: 1;
+    zoom: 140%;
+    background-color: rgba(157, 182, 163, 0.3);
+    /* 輸入框顏色 */
+    color: rgba(1, 61, 67);
+    /* 輸入框文字 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 20px;
+    padding: 6px 10px;
+}
+
+input:focus {
+    outline: none;
+    color: rgb(0, 79, 87);
+    border-color: transparent;
+    box-shadow: rgb(246, 253, 247, 0.5) 0px 0px 2px 2px;
+}
+
+input:hover {
+    color: rgb(0, 79, 87);
+}
+
+input::placeholder {
+    color: rgba(0, 79, 87, 0.5);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+input.has-content::placeholder {
+    opacity: 1.0;
+}
+
+select {
+    line-height: 1;
+    zoom: 140%;
+    background-color: rgba(157, 182, 163, 0.3);
+    /* 輸入框顏色 */
+    color: rgba(0, 79, 87, 0.5);
+    /* 輸入框文字 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    margin-bottom: 0.5rem;
+    padding: 6px 10px;
+}
+
+select.has-choose {
+    color: rgb(0, 79, 87);
+}
+
+select:focus {
+    outline: none;
+    color: rgb(0, 79, 87);
+    border-color: transparent;
+    box-shadow: rgb(246, 253, 247, 0.5) 0px 0px 2px 2px;
+}
+
+#filetext {
+    display: inline-block;
+    transition: 0.3s all;
+    width: 100%;
+}
+
+#banner-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+#selbanner {
+    font-family: "GenSenRoundedJP-R";
+    transition: 0.3s all;
+    width: 70px;
+    margin-left: 10px;
+    margin-right: 0.8rem;
+    padding: 4px 6px;
+    background-color: rgba(1, 61, 67);
+    color: white;
+    font-size: 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#subcategory-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-right: 2rem;
+}
+
+textarea#description {
+    zoom: 140%;
+    background-color: rgba(157, 182, 163, 0.3);
+    /* 輸入框顏色 */
+    color: rgba(1, 61, 67);
+    /* 輸入框文字 */
+    backdrop-filter: blur(15px);
+    /* 毛玻璃程度 */
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 10px;
+    border: none;
+    max-width: 250px;
+    min-width: 250px;
+    max-height: 90px;
+    min-height: 30px;
+    padding: 0.5rem;
+}
+
+textarea#description::placeholder {
+    color: rgba(0, 79, 87, 0.5);
+}
+
+textarea#description:focus {
+    outline: none;
+    color: rgb(0, 79, 87);
+    border-color: transparent;
+    box-shadow: rgb(246, 253, 247, 0.5) 0px 0px 2px 2px;
+}
+
+img {
+    display: block;
+}
+
+td {
+    padding: 12px;
+    padding-right: 30px;
+    padding-left: 0;
+}
+
+.td2 {
+    padding: 12px;
+    padding-right: 30px;
+    padding-left: 30px;
+    text-align: center;
+}
+
+/* -----表單欄位----- */
+
+#topfield {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 85%;
+    height: 45%;
+    padding: 0.5rem 2rem;
+    border: 5px solid rgb(1, 61, 67);
+    border-radius: 20px;
+    margin-bottom: 2.5rem;
+}
+
+#bottomfield {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 85%;
+    height: 20%;
+    padding: 0 2rem;
+    border: 5px solid rgb(1, 61, 67);
+    border-radius: 20px;
+    margin-bottom: 2.5rem;
+}
+
+legend {
+    font-family: 'GenSenRoundedJP-M';
+    font-size: 150%;
+    color: rgb(1, 61, 67);
+    margin: px;
+    margin-bottom: 10px;
+}
