@@ -3,15 +3,15 @@ include("database_connect.php");
 
 // S3 的相關設定
 $bucketName = 'yzuclouds3'; // 替換為你的 S3 Bucket 名稱
-$region = 'us-east-1'; // 替換為你的 S3 地區
+$s3region = 'us-east-1'; // 替換為你的 S3 地區
 $accessKey = 'AKIAUZPNLLK4LFQOGOU4'; // 替換為你的 AWS Access Key
 $secretKey = 'nFjS/xbCobmG+gq9SkqYJfUbIb1QxK0Hu/dHLlbE'; // 替換為你的 AWS Secret Key
 
 function deleteFromS3($fileKey)
 {
-    global $bucketName, $region, $accessKey, $secretKey;
+    global $bucketName, $s3region, $accessKey, $secretKey;
 
-    $host = "$bucketName.s3.$region.amazonaws.com";
+    $host = "$bucketName.s3.$s3region.amazonaws.com";
     $date = gmdate('Ymd');
     $amzDate = gmdate('Ymd\THis\Z');
     $service = 's3';
@@ -27,13 +27,13 @@ function deleteFromS3($fileKey)
     $canonicalRequest = "$requestType\n$canonicalUri\n\n$canonicalHeaders\n$signedHeaders\n$payloadHash";
 
     // 建立 String to Sign
-    $credentialScope = "$date/$region/$service/aws4_request";
+    $credentialScope = "$date/$s3region/$service/aws4_request";
     $stringToSign = "$algorithm\n$amzDate\n$credentialScope\n" . hash('sha256', $canonicalRequest);
 
     // 計算簽名
     $kSecret = 'AWS4' . $secretKey;
     $kDate = hash_hmac('sha256', $date, $kSecret, true);
-    $kRegion = hash_hmac('sha256', $region, $kDate, true);
+    $kRegion = hash_hmac('sha256', $s3region, $kDate, true);
     $kService = hash_hmac('sha256', $service, $kRegion, true);
     $kSigning = hash_hmac('sha256', 'aws4_request', $kService, true);
     $signature = hash_hmac('sha256', $stringToSign, $kSigning);
@@ -80,7 +80,7 @@ if (isset($_REQUEST['activity_id'])) {
 
         // 從 S3 刪除對應的檔案
         if ($bannerUrl) {
-            $fileKey = str_replace("https://$bucketName.s3.$region.amazonaws.com/", '', $bannerUrl);
+            $fileKey = str_replace("https://$bucketName.s3.$s3region.amazonaws.com/", '', $bannerUrl);
 
             if (deleteFromS3($fileKey)) {
                 echo "S3 檔案已成功刪除！<br>";
@@ -94,27 +94,11 @@ if (isset($_REQUEST['activity_id'])) {
     $sql_delete = "DELETE FROM activity WHERE activity_uuid = '{$activity_uuid}'";
     $result_delete = mysqli_query($db_link, $sql_delete);
 
-    if ($result_delete) {
-        echo "活動已成功刪除！<br>";
-    } else {
-        echo "活動刪除失敗！<br>";
-    }
-
-    // 添加跳轉等待
-    echo "3 秒後跳轉到首頁...";
-    echo "<script>
-        setTimeout(function() {
-            window.location.href = 'index.php';
-        }, 3000);
-    </script>";
+    header("Location: index.php");
+    exit;
 } else {
     // 如果沒有提供活動 ID，顯示錯誤並返回
-    echo "未提供活動 ID！";
-    echo "5 秒後跳轉到活動詳情頁...";
-    echo "<script>
-        setTimeout(function() {
-            window.location.href = 'activity_detail.php';
-        }, 5000);
-    </script>";
+    header("Location: activity_detail.php?uuid={$activity_uuid}");
+    exit;
 }
 ?>

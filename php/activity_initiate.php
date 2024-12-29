@@ -53,12 +53,15 @@ function gen_uuid()
     );
 }
 
+// S3 的相關設定
+$bucketName = 'yzuclouds3'; // 替換為你的 S3 Bucket 名稱
+$s3region = 'us-east-1'; // 替換為你的 S3 地區
+$accessKey = 'AKIAUZPNLLK4LFQOGOU4'; // 替換為你的 AWS Access Key
+$secretKey = 'nFjS/xbCobmG+gq9SkqYJfUbIb1QxK0Hu/dHLlbE'; // 替換為你的 AWS Secret Key
+
 function uploadToS3($filePath, $fileName, $activity_uuid)
 {
-    $bucketName = 'yzuclouds3'; // 替換為你的 S3 Bucket 名稱
-    $region = 'us-east-1'; // 替換為你的 S3 地區
-    $accessKey = 'AKIAUZPNLLK4LFQOGOU4'; // 替換為你的 AWS Access Key
-    $secretKey = 'nFjS/xbCobmG+gq9SkqYJfUbIb1QxK0Hu/dHLlbE'; // 替換為你的 AWS Secret Key
+    global $bucketName, $s3region, $accessKey, $secretKey;
 
     // 生成時間戳
     $timestamp = time(); // 獲取當前時間戳
@@ -70,7 +73,7 @@ function uploadToS3($filePath, $fileName, $activity_uuid)
 
     // 生成簽名所需參數
     $service = 's3';
-    $host = "$bucketName.s3.$region.amazonaws.com";
+    $host = "$bucketName.s3.$s3region.amazonaws.com";
     $algorithm = 'AWS4-HMAC-SHA256';
     $date = gmdate('Ymd');
     $amzDate = gmdate('Ymd\THis\Z');
@@ -88,13 +91,13 @@ function uploadToS3($filePath, $fileName, $activity_uuid)
     $canonicalRequest = "$requestType\n$canonicalUri\n\n$canonicalHeaders\n$signedHeaders\n$payloadHash";
 
     // 建立 String to Sign
-    $credentialScope = "$date/$region/$service/aws4_request";
+    $credentialScope = "$date/$s3region/$service/aws4_request";
     $stringToSign = "$algorithm\n$amzDate\n$credentialScope\n" . hash('sha256', $canonicalRequest);
 
     // 計算簽名
     $kSecret = 'AWS4' . $secretKey;
     $kDate = hash_hmac('sha256', $date, $kSecret, true);
-    $kRegion = hash_hmac('sha256', $region, $kDate, true);
+    $kRegion = hash_hmac('sha256', $s3region, $kDate, true);
     $kService = hash_hmac('sha256', $service, $kRegion, true);
     $kSigning = hash_hmac('sha256', 'aws4_request', $kService, true);
     $signature = hash_hmac('sha256', $stringToSign, $kSigning);
@@ -152,7 +155,8 @@ if (isset($_POST['submit']) && ($_POST['action'] == 'submit')) {
     $activeState = "active"; // 活動狀態設定為已發起
 
     // 檢查檔案格式
-    $uploadOk = 1;
+    $uploadOk = 0;
+    $s3FilePath = '';
     $fileName = basename($_FILES["banner"]["name"]);
     $file_ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
     $allowedTypes = ['jpg', 'jpeg', 'png', 'gif']; // 允許的檔案格式
@@ -166,15 +170,11 @@ if (isset($_POST['submit']) && ($_POST['action'] == 'submit')) {
     // 上傳檔案
     if ($uploadOk) {
         $filePath = $_FILES['banner']['tmp_name'];
-        $fileUrl = uploadToS3($filePath, $fileName, $activity_uuid); // 上傳並獲取 URL
-
-        if ($fileUrl) {
-            $target_file = $fileUrl;
-            // 檔案成功上傳，將 URL 存入資料庫
-            echo "<script>alert('檔案已成功上傳！');</script>";
+        $s3FilePath = uploadToS3($filePath, $fileName, $activity_uuid); // 上傳並獲取 URL
+        if ($s3FilePath) {
+            $uploadOk = 1;
         } else {
-            echo "<script>alert('檔案上傳失敗！');</script>";
-            exit; // 上傳失敗，退出
+            echo "檔案上傳失敗至 S3！";
         }
     }
 
@@ -183,7 +183,7 @@ if (isset($_POST['submit']) && ($_POST['action'] == 'submit')) {
 
     $sql_query = "INSERT INTO activity (title, description, region, date_start, date_end, member_limit, apply_start, apply_end, banner, category, subcategory, state, activity_uuid, admin_uuid, phone, group_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $db_link->prepare($sql_query);
-    $stmt->bind_param("ssssssssssssssss", $_POST['title'], $_POST['description'], $region, $_POST['date_start'], $_POST['date_end'], $_POST['member_limit'], $_POST['apply_start'], $_POST['apply_end'], $target_file, $_POST['category'], $subcategory, $activeState, $activity_uuid, $admin_uuid, $userPhone, $userName);
+    $stmt->bind_param("ssssssssssssssss", $_POST['title'], $_POST['description'], $region, $_POST['date_start'], $_POST['date_end'], $_POST['member_limit'], $_POST['apply_start'], $_POST['apply_end'], $s3FilePath, $_POST['category'], $subcategory, $activeState, $activity_uuid, $admin_uuid, $userPhone, $userName);
 
     try {
         if ($stmt->execute()) {

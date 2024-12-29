@@ -175,11 +175,21 @@ function deleteFromS3($fileKey)
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $uploadOk = 0;
-    $s3FilePath = '';
-
     // 檢查是否有新檔案被上傳
     if (is_uploaded_file($_FILES['banner']['tmp_name'])) {
+        // 檢查檔案格式
+        $uploadOk = 0;
+        $s3FilePath = '';
+        $fileName = basename($_FILES["banner"]["name"]);
+        $file_ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif']; // 允許的檔案格式
+        if (in_array($file_ext, $allowedTypes)) {
+            $uploadOk = 1;
+        } else {
+            echo "<script>alert('僅支援 JPG, JPEG, PNG, GIF 格式的圖片！'); window.history.back();</script>";
+            exit;
+        }
+
         // 獲取舊的 banner 路徑
         $stmt = $db_link->prepare("SELECT banner FROM activity WHERE activity_uuid = ?");
         $stmt->bind_param('s', $activity_uuid);
@@ -192,7 +202,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // 刪除舊的 S3 檔案
         if ($oldBannerPath) {
             $fileKey = str_replace("https://$bucketName.s3.$s3region.amazonaws.com/", '', $oldBannerPath);
-            //echo "刪除舊的檔案：$fileKey<br>";
             deleteFromS3($fileKey);
         }
 
