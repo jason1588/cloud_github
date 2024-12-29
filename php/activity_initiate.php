@@ -53,6 +53,87 @@ function gen_uuid()
     );
 }
 
+function uploadToS3($filePath, $fileName, $activity_uuid)
+{
+    $bucketName = 'yzuclouds3'; // 替換為你的 S3 Bucket 名稱
+    $region = 'us-east-1'; // 替換為你的 S3 地區
+    $accessKey = 'AKIAUZPNLLK4LFQOGOU4'; // 替換為你的 AWS Access Key
+    $secretKey = 'nFjS/xbCobmG+gq9SkqYJfUbIb1QxK0Hu/dHLlbE'; // 替換為你的 AWS Secret Key
+
+    // 生成時間戳
+    $timestamp = time(); // 獲取當前時間戳
+
+    // 生成檔名
+    $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+    $fileBaseName = $activity_uuid;
+    $fileNameWithTimestamp = $fileBaseName . '_' . $timestamp . '.' . $fileExtension;
+
+    // 生成簽名所需參數
+    $service = 's3';
+    $host = "$bucketName.s3.$region.amazonaws.com";
+    $algorithm = 'AWS4-HMAC-SHA256';
+    $date = gmdate('Ymd');
+    $amzDate = gmdate('Ymd\THis\Z');
+    $requestType = 'PUT';
+
+    // 加入 uploads 資料夾路徑
+    $fileKey = "uploads/" . $fileNameWithTimestamp;
+
+    // 建立 Canonical Request
+    $canonicalUri = '/' . $fileKey;
+    $canonicalHeaders = "host:$host\nx-amz-content-sha256:UNSIGNED-PAYLOAD\nx-amz-date:$amzDate\n";
+    $signedHeaders = 'host;x-amz-content-sha256;x-amz-date';
+    $payloadHash = 'UNSIGNED-PAYLOAD';
+
+    $canonicalRequest = "$requestType\n$canonicalUri\n\n$canonicalHeaders\n$signedHeaders\n$payloadHash";
+
+    // 建立 String to Sign
+    $credentialScope = "$date/$region/$service/aws4_request";
+    $stringToSign = "$algorithm\n$amzDate\n$credentialScope\n" . hash('sha256', $canonicalRequest);
+
+    // 計算簽名
+    $kSecret = 'AWS4' . $secretKey;
+    $kDate = hash_hmac('sha256', $date, $kSecret, true);
+    $kRegion = hash_hmac('sha256', $region, $kDate, true);
+    $kService = hash_hmac('sha256', $service, $kRegion, true);
+    $kSigning = hash_hmac('sha256', 'aws4_request', $kService, true);
+    $signature = hash_hmac('sha256', $stringToSign, $kSigning);
+
+    // 組合 Authorization 標頭
+    $authorization = "$algorithm Credential=$accessKey/$credentialScope, SignedHeaders=$signedHeaders, Signature=$signature";
+
+    // 發送 PUT 請求
+    $url = "https://$host/$fileKey";
+    $headers = [
+        "Authorization: $authorization",
+        "x-amz-content-sha256: $payloadHash",
+        "x-amz-date: $amzDate",
+        "Content-Type: " . mime_content_type($filePath),
+    ];
+
+    $file = fopen($filePath, 'rb');
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_PUT, true);
+    curl_setopt($ch, CURLOPT_INFILE, $file);
+    curl_setopt($ch, CURLOPT_INFILESIZE, filesize($filePath));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    fclose($file);
+    curl_close($ch);
+
+    if ($httpCode == 200) {
+        //echo "檔案已成功上傳至 S3！URL: $url";
+        return $url;
+    } else {
+        echo "檔案上傳失敗！HTTP 狀態碼：$httpCode\n";
+        echo "回應內容：$response\n";
+        return false;
+    }
+}
+
 if (isset($_POST['submit']) && ($_POST['action'] == 'submit')) {
     $admin_uuid = $_SESSION['user']['user_uuid'];
     $stmt = $db_link->prepare("SELECT name, group_name, phone FROM user WHERE uuid = ?");
@@ -67,48 +148,33 @@ if (isset($_POST['submit']) && ($_POST['action'] == 'submit')) {
     }
     $userPhone = $userData['phone'];
     $activity_uuid = gen_uuid();
-    $subcategory = $_POST['subcategory'];   // 活動副類別
-    $activeState = "active";    // 活動狀態設定為已發起
-
-    // 檔案上傳
-    $target_dir = "https://yzuclouds3.s3.us-east-1.amazonaws.com/uploads/";
-    $base_name = basename($_FILES["banner"]["name"]);
-    $file_ext = pathinfo($base_name, PATHINFO_EXTENSION);
-    $uploadOk = 1;
-    $imageFileType = strtolower($file_ext);
+    $subcategory = $_POST['subcategory']; // 活動副類別
+    $activeState = "active"; // 活動狀態設定為已發起
 
     // 檢查檔案格式
-    if (isset($_POST["submit"])) {
-        $check = getimagesize($_FILES["banner"]["tmp_name"]);
-        if ($check !== false) {
-            $uploadOk = 1;
-        } else {
-            $uploadOk = 0;
-        }
+    $uploadOk = 1;
+    $fileName = basename($_FILES["banner"]["name"]);
+    $file_ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif']; // 允許的檔案格式
+    if (in_array($file_ext, $allowedTypes)) {
+        $uploadOk = 1;
+    } else {
+        echo "<script>alert('僅支援 JPG, JPEG, PNG, GIF 格式的圖片！'); window.history.back();</script>";
+        exit;
     }
 
-    // 判斷是否有一樣的檔案名稱
-    $file_base = pathinfo($base_name, PATHINFO_FILENAME);
-    $target_file = $target_dir . $file_base . '_' . time() . '.' . $file_ext;
-    do {
-        $stmt = $db_link->prepare("SELECT banner FROM activity WHERE banner = ?");
-        $stmt->bind_param("s", $target_file);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0 || file_exists($target_file)) {
-            $target_file = $target_dir . $file_base . '_' . time() . '.' . $file_ext;
-        } else {
-            break;
-        }
-    } while (true);
-    $stmt->close();
-
     // 上傳檔案
-    if ($uploadOk == 1) {
-        if (move_uploaded_file($_FILES["banner"]["tmp_name"], $target_file)) {
-            //echo "檔案 " . basename($_FILES["banner"]["name"]) . "上傳成功";
+    if ($uploadOk) {
+        $filePath = $_FILES['banner']['tmp_name'];
+        $fileUrl = uploadToS3($filePath, $fileName, $activity_uuid); // 上傳並獲取 URL
+
+        if ($fileUrl) {
+            $target_file = $fileUrl;
+            // 檔案成功上傳，將 URL 存入資料庫
+            echo "<script>alert('檔案已成功上傳！');</script>";
         } else {
-            echo "檔案上傳失敗";
+            echo "<script>alert('檔案上傳失敗！');</script>";
+            exit; // 上傳失敗，退出
         }
     }
 
