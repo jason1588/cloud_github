@@ -1,3 +1,2 @@
-<?php 
-  echo "time";
+<?php phpinfo();
 ?>
