@@ -46,32 +46,162 @@ $category = $row['category'];
 $subcategory = $row['subcategory'];
 $activity_uuid = $row['activity_uuid'];
 
+
+// S3 的相關設定
+$bucketName = 'yzuclouds3'; // 替換為你的 S3 Bucket 名稱
+$s3region = 'us-east-1'; // 替換為你的 S3 地區
+$accessKey = 'AKIAUZPNLLK4LFQOGOU4'; // 替換為你的 AWS Access Key
+$secretKey = 'nFjS/xbCobmG+gq9SkqYJfUbIb1QxK0Hu/dHLlbE'; // 替換為你的 AWS Secret Key
+
+// S3 上傳函式
+function uploadToS3($filePath, $fileName, $activity_uuid)
+{
+    global $bucketName, $s3region, $accessKey, $secretKey;
+
+    $timestamp = time();
+    $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+    $fileBaseName = $activity_uuid;
+    $fileNameWithTimestamp = $fileBaseName . '_' . $timestamp . '.' . $fileExtension;
+
+    $service = 's3';
+    $host = "$bucketName.s3.$s3region.amazonaws.com";
+    $algorithm = 'AWS4-HMAC-SHA256';
+    $date = gmdate('Ymd');
+    $amzDate = gmdate('Ymd\THis\Z');
+    $requestType = 'PUT';
+    $fileKey = "uploads/" . $fileNameWithTimestamp;
+
+    $canonicalUri = '/' . $fileKey;
+    $canonicalHeaders = "host:$host\nx-amz-content-sha256:UNSIGNED-PAYLOAD\nx-amz-date:$amzDate\n";
+    $signedHeaders = 'host;x-amz-content-sha256;x-amz-date';
+    $payloadHash = 'UNSIGNED-PAYLOAD';
+
+    $canonicalRequest = "$requestType\n$canonicalUri\n\n$canonicalHeaders\n$signedHeaders\n$payloadHash";
+    $credentialScope = "$date/$s3region/$service/aws4_request";
+    $stringToSign = "$algorithm\n$amzDate\n$credentialScope\n" . hash('sha256', $canonicalRequest);
+
+    $kSecret = 'AWS4' . $secretKey;
+    $kDate = hash_hmac('sha256', $date, $kSecret, true);
+    $kRegion = hash_hmac('sha256', $s3region, $kDate, true);
+    $kService = hash_hmac('sha256', $service, $kRegion, true);
+    $kSigning = hash_hmac('sha256', 'aws4_request', $kService, true);
+    $signature = hash_hmac('sha256', $stringToSign, $kSigning);
+
+    $authorization = "$algorithm Credential=$accessKey/$credentialScope, SignedHeaders=$signedHeaders, Signature=$signature";
+
+    $url = "https://$host/$fileKey";
+    $headers = [
+        "Authorization: $authorization",
+        "x-amz-content-sha256: $payloadHash",
+        "x-amz-date: $amzDate",
+        "Content-Type: " . mime_content_type($filePath),
+    ];
+
+    $file = fopen($filePath, 'rb');
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_PUT, true);
+    curl_setopt($ch, CURLOPT_INFILE, $file);
+    curl_setopt($ch, CURLOPT_INFILESIZE, filesize($filePath));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    fclose($file);
+    curl_close($ch);
+
+    return $httpCode == 200 ? $url : false;
+}
+
+// S3 刪除函式
+function deleteFromS3($fileKey)
+{
+    global $bucketName, $s3region, $accessKey, $secretKey;
+
+    $host = "$bucketName.s3.$s3region.amazonaws.com";
+    $date = gmdate('Ymd');
+    $amzDate = gmdate('Ymd\THis\Z');
+    $service = 's3';
+    $algorithm = 'AWS4-HMAC-SHA256';
+    $requestType = 'DELETE';
+
+    // 建立 Canonical Request
+    $canonicalUri = '/' . $fileKey;
+    $payloadHash = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'; // 空內容的 SHA256 哈希值
+    $canonicalHeaders = "host:$host\nx-amz-content-sha256:$payloadHash\nx-amz-date:$amzDate\n";
+    $signedHeaders = 'host;x-amz-content-sha256;x-amz-date';
+
+    $canonicalRequest = "$requestType\n$canonicalUri\n\n$canonicalHeaders\n$signedHeaders\n$payloadHash";
+
+    // 建立 String to Sign
+    $credentialScope = "$date/$s3region/$service/aws4_request";
+    $stringToSign = "$algorithm\n$amzDate\n$credentialScope\n" . hash('sha256', $canonicalRequest);
+
+    // 計算簽名
+    $kSecret = 'AWS4' . $secretKey;
+    $kDate = hash_hmac('sha256', $date, $kSecret, true);
+    $kRegion = hash_hmac('sha256', $s3region, $kDate, true);
+    $kService = hash_hmac('sha256', $service, $kRegion, true);
+    $kSigning = hash_hmac('sha256', 'aws4_request', $kService, true);
+    $signature = hash_hmac('sha256', $stringToSign, $kSigning);
+
+    // Authorization 標頭
+    $authorization = "$algorithm Credential=$accessKey/$credentialScope, SignedHeaders=$signedHeaders, Signature=$signature";
+
+    // 發送 DELETE 請求
+    $url = "https://$host/$fileKey";
+    $headers = [
+        "Authorization: $authorization",
+        "x-amz-date: $amzDate",
+        "x-amz-content-sha256: $payloadHash"
+    ];
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode == 204) {
+        return true; // 刪除成功
+    } else {
+        echo "S3 刪除失敗！HTTP 狀態碼：$httpCode<br>";
+        echo "回應內容：$response<br>";
+        return false;
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $uploadOk = 0;
+    $s3FilePath = '';
+
     // 檢查是否有新檔案被上傳
     if (is_uploaded_file($_FILES['banner']['tmp_name'])) {
-        $check = getimagesize($_FILES["banner"]["tmp_name"]);
-        if ($check !== false) {
-            $target_dir = "../assets/images/uploads/";
-            $base_name = basename($_FILES["banner"]["name"]);
-            $file_ext = pathinfo($base_name, PATHINFO_EXTENSION);
-            $imageFileType = strtolower($file_ext);
+        // 獲取舊的 banner 路徑
+        $stmt = $db_link->prepare("SELECT banner FROM activity WHERE activity_uuid = ?");
+        $stmt->bind_param('s', $activity_uuid);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $oldBannerPath = $row['banner'];
+        $stmt->close();
+
+        // 刪除舊的 S3 檔案
+        if ($oldBannerPath) {
+            $fileKey = str_replace("https://$bucketName.s3.$s3region.amazonaws.com/", '', $oldBannerPath);
+            //echo "刪除舊的檔案：$fileKey<br>";
+            deleteFromS3($fileKey);
+        }
+
+        // 上傳新檔案到 S3
+        $s3FilePath = uploadToS3($_FILES['banner']['tmp_name'], $_FILES['banner']['name'], $activity_uuid);
+        if ($s3FilePath) {
             $uploadOk = 1;
-
-            // 判斷是否有一樣的檔案名稱
-            $file_base = pathinfo($base_name, PATHINFO_FILENAME);
-            $target_file = $target_dir . $file_base . '_' . time() . '.' . $file_ext;
-
-            // 上傳檔案
-            if ($uploadOk == 1) {
-                if (move_uploaded_file($_FILES["banner"]["tmp_name"], $target_file)) {
-                    //echo "檔案 " . basename($_FILES["banner"]["name"]) . "上傳成功";
-                } else {
-                    echo "檔案上傳失敗";
-                }
-            }
         } else {
-            echo "檔案不是圖片";
+            echo "檔案上傳失敗至 S3！";
         }
     }
 
@@ -81,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 更新資料庫中的活動資訊
     if ($uploadOk == 1) {
         $stmt = $db_link->prepare("UPDATE activity SET title=?, description=?, region=?, date_start=?, date_end=?, member_limit=?, apply_start=?, apply_end=?, category=?, subcategory=?, banner=? WHERE activity_uuid=?");
-        $stmt->bind_param("ssssssssssss", $_POST['title'], $_POST['description'], $region, $_POST['date_start'], $_POST['date_end'], $_POST['member_limit'], $_POST['apply_start'], $_POST['apply_end'], $_POST['category'], $_POST['subcategory'], $target_file, $activity_uuid);
+        $stmt->bind_param("ssssssssssss", $_POST['title'], $_POST['description'], $region, $_POST['date_start'], $_POST['date_end'], $_POST['member_limit'], $_POST['apply_start'], $_POST['apply_end'], $_POST['category'], $_POST['subcategory'], $s3FilePath, $activity_uuid);
     } else {
         // 如果上傳失敗，不更新檔案路徑
         $stmt = $db_link->prepare("UPDATE activity SET title=?, description=?, region=?, date_start=?, date_end=?, member_limit=?, apply_start=?, apply_end=?, category=?, subcategory=? WHERE activity_uuid=?");
