@@ -266,10 +266,10 @@ if (isset($_POST['submit']) && ($_POST['action'] == 'submit')) {
                         <option value="連江縣">連江縣</option>
                     </select>
                     <label for="date_start">活動開始時間</label>
-                    <input type="datetime-local" name="date_start" id="date_start" value="2024-06-19T00:00"
+                    <input type="datetime-local" name="date_start" id="date_start" value="2024-12-25T00:00"
                         min="2024-06-01T00:00" max="2025-12-31T00:00">
                     <label for="date_end">活動結束時間</label>
-                    <input type="datetime-local" name="date_end" id="date_end" value="2024-06-19T00:00"
+                    <input type="datetime-local" name="date_end" id="date_end" value="2024-12-25T00:00"
                         min="2024-06-01T00:00" max="2025-12-31T00:00">
                     <label for="member_limit">報名人數上限</label>
                     <input type="number" id="member_limit" name="member_limit" placeholder="請輸入報名人數上限" value="1" min="1"
@@ -278,10 +278,10 @@ if (isset($_POST['submit']) && ($_POST['action'] == 'submit')) {
 
                 <div id="rightdiv">
                     <label for="apply_start">報名開始時間</label>
-                    <input type="date" name="apply_start" id="apply_start" value="2024-06-19" min="2000-01-01"
+                    <input type="date" name="apply_start" id="apply_start" value="2024-12-25" min="2000-01-01"
                         max="2025-12-31">
                     <label for="apply_end">報名結束時間</label>
-                    <input type="date" name="apply_end" id="apply_end" value="2024-06-19" min="2000-01-01"
+                    <input type="date" name="apply_end" id="apply_end" value="2024-12-25" min="2000-01-01"
                         max="2025-12-31">
                     <span>活動封面照</span>
                     <div id="banner-container">
