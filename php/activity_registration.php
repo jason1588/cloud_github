@@ -30,3 +30,4 @@ if (isset($_REQUEST['activity_id'])) {
     header("Location: activity_detail.php?uuid={$activity_uuid}");
     exit;
 }
+?>
